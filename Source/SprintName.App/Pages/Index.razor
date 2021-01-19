@@ -1,21 +1,28 @@
-﻿@using Bogus
+﻿@using System.Reflection
+@using System.IO
+@using Humanizer
 
 @page "/"
 
 <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
     <h1 class="h4 text-secondary mb-4">Sprint Name</h1>
     <b class="h1 text-white mb-4">@_name</b>
-    <button type="button" class="btn btn-outline-secondary" @onclick="@Generate">Generate</button>
+    <button type="button" class="btn btn-outline-secondary" @onclick="@Generate">
+        <span class="bi-arrow-repeat me-1"></span>
+        Generate
+    </button>
 </div>
 
 @code
 {
-    private readonly Faker _faker;
+    private readonly string[] _adjectives;
+    private readonly string[] _nouns;
     private string _name;
 
     public Index()
     {
-        _faker = new Faker();
+        _adjectives = LoadWords("SprintName.App.Words.adjectives.txt");
+        _nouns = LoadWords("SprintName.App.Words.nouns.txt");
     }
 
     protected override void OnInitialized()
@@ -25,6 +32,27 @@
 
     private void Generate()
     {
-        _name = _faker.Commerce.ProductName();
+        _name = $"{GetAdjective()} {GetAdjective()} {GetNoun()}".Titleize();
+    }
+
+    private string GetAdjective()
+    {
+        var random = new Random();
+        return _adjectives[random.Next(0, _adjectives.Length)];
+    }
+
+    private string GetNoun()
+    {
+        var random = new Random();
+        return _nouns[random.Next(0, _nouns.Length)];
+    }
+
+    private static string[] LoadWords(string resource)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream(resource);
+        using var reader = new StreamReader(stream!);
+        return reader.ReadToEnd().Split(Environment.NewLine).ToArray();
     }
 }

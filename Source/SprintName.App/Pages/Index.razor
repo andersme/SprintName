@@ -1,6 +1,28 @@
 ﻿@page "/"
+@using Bogus
+@using Humanizer
 
 <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
-    <h1 class="text-secondary mb-4">Sprint Name</h1>
-    <button type="button" class="btn btn-outline-secondary">Generate</button>
+    <h1 class="h4 text-secondary mb-4">Sprint Name</h1>
+    <b class="h1 text-white mb-4">@_name</b>
+    <button type="button" class="btn btn-outline-secondary" @onclick="@Generate">Generate</button>
 </div>
+
+@code
+{
+    private readonly Faker<string> _faker;
+    private string _name;
+
+    public Index()
+    {
+        _faker = new Faker<string>()
+            .CustomInstantiator(f => $"{f.Hacker.Adjective()} {f.Hacker.Noun()}".ApplyCase(LetterCasing.Title));
+
+        _name = _faker.Generate();
+    }
+
+    private void Generate()
+    {
+        _name = _faker.Generate();
+    }
+}

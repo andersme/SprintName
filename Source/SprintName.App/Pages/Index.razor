@@ -16,13 +16,13 @@
 @code
 {
     private readonly string[] _adjectives;
-    private readonly string[] _nouns;
+    private readonly string[] _animals;
     private string _name;
 
     public Index()
     {
         _adjectives = LoadWords("SprintName.App.Words.adjectives.txt");
-        _nouns = LoadWords("SprintName.App.Words.nouns.txt");
+        _animals = LoadWords("SprintName.App.Words.animals.txt");
     }
 
     protected override void OnInitialized()
@@ -32,7 +32,7 @@
 
     private void Generate()
     {
-        _name = $"{GetAdjective()} {GetNoun()}".Titleize();
+        _name = $"{GetAdjective()} {GetAnimal()}".Titleize();
     }
 
     private string GetAdjective()
@@ -41,10 +41,10 @@
         return _adjectives[random.Next(0, _adjectives.Length)];
     }
 
-    private string GetNoun()
+    private string GetAnimal()
     {
         var random = new Random();
-        return _nouns[random.Next(0, _nouns.Length)];
+        return _animals[random.Next(0, _animals.Length)];
     }
 
     private static string[] LoadWords(string resource)

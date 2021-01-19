@@ -8,12 +8,12 @@
 
   <ItemGroup>
     <None Remove="Words\adjectives.txt" />
-    <None Remove="Words\nouns.txt" />
+    <None Remove="Words\animals.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Words\adjectives.txt" />
-    <EmbeddedResource Include="Words\nouns.txt" />
+    <EmbeddedResource Include="Words\animals.txt" />
   </ItemGroup>
 
   <ItemGroup>

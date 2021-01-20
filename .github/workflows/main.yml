@@ -7,6 +7,8 @@ jobs:
     steps:
         # Checkout the code
         - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
 
         # Install .NET Core SDK
         - name: Setup .NET Core

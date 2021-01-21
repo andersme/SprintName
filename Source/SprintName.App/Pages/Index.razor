@@ -13,20 +13,19 @@
     </button>
 </div>
 
+@inject HttpClient Http
+
 @code
 {
-    private readonly string[] _adjectives;
-    private readonly string[] _animals;
+    private string[] _adjectives;
+    private string[] _animals;
     private string _name;
 
-    public Index()
+    protected override async Task OnInitializedAsync()
     {
-        _adjectives = LoadWords("SprintName.App.Words.adjectives.txt");
-        _animals = LoadWords("SprintName.App.Words.animals.txt");
-    }
+        _adjectives = await LoadWords("adjectives.txt");
+        _animals = await LoadWords("animals.txt");
 
-    protected override void OnInitialized()
-    {
         Generate();
     }
 
@@ -47,12 +46,9 @@
         return _animals[random.Next(0, _animals.Length)];
     }
 
-    private static string[] LoadWords(string resource)
+    private async Task<string[]> LoadWords(string filename)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream(resource);
-        using var reader = new StreamReader(stream!);
-        return reader.ReadToEnd().Split(Environment.NewLine).ToArray();
+        var list  = await Http.GetStringAsync($"word-lists/{filename}");
+        return list.Split(Environment.NewLine).ToArray();
     }
 }

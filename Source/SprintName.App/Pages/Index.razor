@@ -4,13 +4,25 @@
 
 @page "/"
 
-<div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
-    <h1 class="h4 text-secondary mb-4">Sprint Name</h1>
-    <b class="h1 text-white mb-4">@_name</b>
-    <button type="button" class="btn btn-outline-secondary" @onclick="@Generate">
-        <span class="bi-arrow-repeat me-1"></span>
-        Generate
-    </button>
+
+<div class="d-flex flex-column align-items-center justify-content-center h-100">
+    @if (string.IsNullOrEmpty(_name))
+    {
+        <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <h1 class="h4 text-secondary user-select-none">Sprint Name</h1>
+        <b class="h1 text-white text-center my-5">
+
+            @_name
+        </b>
+        <button type="button" class="btn btn-outline-secondary btn-lg" @onclick="@Generate">
+            <span class="fa fa-sync me-3"></span><b>Generate</b>
+        </button>
+    }
 </div>
 
 @inject HttpClient Http
@@ -48,7 +60,7 @@
 
     private async Task<string[]> LoadWords(string filename)
     {
-        var list  = await Http.GetStringAsync($"word-lists/{filename}");
+        var list = await Http.GetStringAsync($"word-lists/{filename}");
         return list.Split(Environment.NewLine).ToArray();
     }
 }

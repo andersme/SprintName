@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@5.15.2",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.css"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "bootstrap@5.0.0-beta1",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "dist/css/bootstrap.css"
+      ]
+    }
+  ]
+}
